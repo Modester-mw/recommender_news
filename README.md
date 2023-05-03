@@ -1,6 +1,6 @@
 # recommender_news
 
 ## Members
-Modester Mwangi
-Brenda Gilisho
-Samwel Maisiba
+### 1. Modester Mwangi
+### 2. Brenda Gilisho
+### 3. Samwel Maisiba
