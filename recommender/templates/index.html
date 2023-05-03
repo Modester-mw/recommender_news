@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Recommender</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Similar Articles</h1>
+        <div class="input-container">
+            <label for="content">Content:</label>
+            <textarea id="content" rows="10" placeholder="Enter article content"></textarea>
+        </div>
+        <div class="input-container">
+            <label for="numArticles">Number of similar articles:</label>
+            <input type="number" id="numArticles" value="5">
+        </div>
+        <button onclick="getSimilarArticles()">Get Similar Articles</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function getSimilarArticles() {
+            const content = document.getElementById("content").value;
+            const numArticles = document.getElementById("numArticles").value;
+
+            const response = await fetch('/article', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: content,
+                    num_articles: parseInt(numArticles)
+                })
+            });
+
+            const similarArticles = await response.json();
+            displayResults(similarArticles);
+        }
+
+        function displayResults(similarArticles) {
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = '';
+
+            if ('error' in similarArticles) {
+                resultsDiv.innerHTML = `<p class="error">Error: ${similarArticles.error}</p>`;
+                return;
+            }
+
+            if (similarArticles.length === 0) {
+                resultsDiv.innerHTML = '<p>No similar articles found.</p>';
+                return;
+            }
+
+    //         const table = document.createElement('table');
+    // similarArticles.forEach((article, index) => {
+    //     const row = table.insertRow(index);
+
+    //     for (const property in article) {
+    //         const cell = row.insertCell();
+    //         cell.textContent = article[property];
+    //     }
+    // });
+
+    // resultsDiv.appendChild(table);
+    const table = document.createElement('table');
+
+// Create the header row
+const headerRow = table.insertRow(0);
+const categoryHeader = headerRow.insertCell(0);
+const headlineHeader = headerRow.insertCell(1);
+const descriptionHeader = headerRow.insertCell(2);
+categoryHeader.textContent = "Category";
+headlineHeader.textContent = "Headline";
+descriptionHeader.textContent = "Description";
+
+// Create the rows for each similar article
+similarArticles.forEach((article, index) => {
+    const row = table.insertRow(index + 1);
+
+    // Add the values for each column
+    const categoryCell = row.insertCell(0);
+    categoryCell.textContent = article['category'];
+    const headlineCell = row.insertCell(1);
+    headlineCell.textContent = article['headline'];
+    const descriptionCell = row.insertCell(2);
+    descriptionCell.textContent = article['short_description'];
+});
+
+resultsDiv.appendChild(table);
+
+
+        }
+        
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Recommender - Article {{ index }}</title>
+</head>
+<body>
+    <h1>{{ article['headline'] }}</h1>
+    <p><strong>Category:</strong> {{ article.category }}</p>
+    <p><strong>Description:</strong> {{ article.short_description }}</p>
+    <h2>Similar articles:</h2>
+    <ul>
+        {% for similar_article in similar_articles %}
+        <li><a href="/article/{{ similar_article.Index }}">{{ similar_article.headline }}</a></li>
+        {% endfor %}
+    </ul> 
+    
+</body>
+</html>
+<!-- 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Recommender</title>
+</head>
+<body>
+    <h1>Welcome to the news article recommender!</h1>
+    <ul>
+        {% for article in articles %}
+        <div class="article">
+            <h4><a href="/article/{{ article.id }}">{{ article['headline'] }}</a></h4>
+            <p><strong>Category:</strong> {{ article['category'] }}</p>
+            <p><strong>short_description:</strong> {{ article['short_description'] }}</p>
+        </div>
+        {% endfor %}
+        
+    </ul>
+</body>
+</html> -->
+
+
